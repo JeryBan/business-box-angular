@@ -1,0 +1,42 @@
+:host {
+    --header-color: #2C3E50;
+    --navy-blue: #1ABC9C;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    color: white;
+    background-color: var(--header-color);
+}
+
+nav {
+    width: 10%;
+    height: 95vh;
+    color: white;
+    background-color: var(--header-color);
+}
+
+nav span {
+    padding-left: 0.7rem;
+    font-size: 15px;
+    color: var(--navy-blue)
+}
+
+.business{padding-left: 0;}
+
+.btn {color: white;}
+.btn:hover {color: var(--navy-blue);}
+
+.business {
+    background-color: #3E5871;
+}
+
+.main {
+    background-color: #E9E9E9;
+    width: 100%;
+}
