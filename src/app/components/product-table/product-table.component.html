@@ -1,0 +1,34 @@
+<div class="col-md-6 w-100">
+    <div class="card">
+        <div class="card-body table-border-style">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th role="button" class="d-flex align-items-end gap-1 add">Add<i class="fa-solid fa-plus p-1"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (product of products; track product; let i = $index) {
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{product.name}}</td>
+                                <td>{{product.quantity}}</td>
+                                <td>{{product.price}}</td>  
+                                <td>
+                                    <i class="fa-solid fa-pen" role="button" routerLink=""></i>
+                                    <span style="margin-left: 15px;"></span>
+                                    <i class="fa-regular fa-trash-can" role="button" routerLink=""></i>
+                                </td>                              
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

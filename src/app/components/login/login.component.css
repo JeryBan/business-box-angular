@@ -1,0 +1,17 @@
+.auth-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-width: 100%;
+    min-height: 100vh;
+    background: #1abc9c;
+    
+}
+
+.auth-content {
+    position: relative;
+    padding: 15px;
+    z-index: 5;
+}

@@ -1,0 +1,36 @@
+.card-container {
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;    
+    border-radius: 0;
+}
+
+.card-body {
+    border-top: 3px solid var(--navy-green);
+    height: 65vh;
+    overflow: hidden;
+}
+
+.category-title {
+    background-color: var(--navy-green);
+    width: 50%;
+}
+
+.nav-link {
+    color: var(--navy-green);
+}
+
+.nav-link:focus {
+    background-color: var(--navy-green);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: var(--navy-green);
+    color: white;
+}
+
+.tab-content {
+    height: 60vh;
+    overflow-y: auto;
+}

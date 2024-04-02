@@ -1,0 +1,7 @@
+.fa-trash-can:hover {
+    color: red
+}
+
+.add:hover, .fa-pen:hover {
+    color: var(--navy-green);
+}

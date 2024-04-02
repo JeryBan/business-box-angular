@@ -1,6 +1,12 @@
+:root {
+    --navy-green: #1ABC9C;
+}
+
 @font-face {
     font-family: 'Open Sans';
     src: url('src/assets/fonts/Open_Sans/static/OpenSans-Regular.ttf') format('truetype');
 }
 
 ul {list-style-type: none;}
+
+.card-title {margin: 2rem 0 0 2rem;}

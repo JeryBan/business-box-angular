@@ -1,0 +1,60 @@
+.chat {
+    margin-top: 4rem;
+    margin-left: 2rem;
+}
+
+.chat-card .msg {
+    margin-bottom: 5px;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+}
+
+.chat-card .msg img {
+    width: 60px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.chat-card .received-chat .msg {
+    background: #81eed8;
+    border-radius: 0 5px 5px 5px;
+}
+
+.chat-card .received-chat .msg:after {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: -7px;
+    transform: rotate(45deg);
+    border: 7px solid transparent;
+    border-bottom-color: #81eed8;
+}
+
+.chat-card .send-chat, .chat-card .widget-chat-box .receive-chat, .widget-chat-box .chat-card .receive-chat {
+    text-align: right;
+}
+
+.chat-card .send-chat .msg, .chat-card .widget-chat-box .receive-chat .msg, .widget-chat-box .chat-card .receive-chat .msg {
+    background: #1abc9c;
+    color: #fff;
+    border-radius: 5px 0 5px 5px;
+}
+
+.chat-card .send-chat .msg:after, .chat-card .widget-chat-box .receive-chat .msg:after, .widget-chat-box .chat-card .receive-chat .msg:after {
+    content: "";
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    transform: rotate(45deg);
+    border: 7px solid transparent;
+    border-right-color: #1abc9c;
+}
+
+button {
+    border: none;
+    background-color: var(--navy-green);
+}
+
