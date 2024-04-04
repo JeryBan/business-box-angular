@@ -3,5 +3,6 @@ export interface Employee {
     lastname: string,
     email: string,
     phoneNumber: string
+    filesPath: string
   };
   

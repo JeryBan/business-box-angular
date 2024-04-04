@@ -16,7 +16,7 @@
                                 <th>Phone Number</th>
                                 <th>Email</th>
                                 <th>Documents</th>
-                                <th role="button" class="d-flex align-items-end gap-1 add">Add<i class="fa-solid fa-plus p-1"></i></th>
+                                <th role="button" (click)="openModal()" class="d-flex align-items-end gap-1 add">Add<i class="fa-solid fa-plus p-1"></i></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,7 +28,7 @@
                                     <td>{{employee.phoneNumber}}</td>
                                     <td>{{employee.email}}</td>
                                     <td>
-                                        <select class="form-control ela">
+                                        <select class="form-control">
                                             <option>doc.pdf </option>
                                             <option>doc.pdf </option>
                                             <option>doc.pdf </option>
@@ -37,7 +37,7 @@
                                     <td>
                                         <i class="fa-solid fa-pen" role="button" routerLink=""></i>
                                         <span style="margin-left: 15px;"></span>
-                                        <i class="fa-regular fa-trash-can" role="button" routerLink=""></i>
+                                        <i class="fa-regular fa-trash-can" role="button"></i>
                                     </td>
                                 </tr>
                             }
@@ -48,4 +48,19 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade show" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-insert-employee></app-insert-employee>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="closeModal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 

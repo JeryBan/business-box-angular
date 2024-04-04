@@ -16,3 +16,10 @@
 .add:hover, .fa-pen:hover {
     color: var(--navy-green);
 }
+
+.modal-content {
+    border: 4px solid var(--navy-green);
+    width: 130%;
+    height: 40vh;
+}
+
