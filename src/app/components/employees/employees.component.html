@@ -16,7 +16,7 @@
                                 <th>Phone Number</th>
                                 <th>Email</th>
                                 <th>Documents</th>
-                                <th role="button" (click)="openModal()" class="d-flex align-items-end gap-1 add">Add<i class="fa-solid fa-plus p-1"></i></th>
+                                <th role="button" (click)="openModal('insert')" class="d-flex align-items-end gap-1 add">Add<i class="fa-solid fa-plus p-1"></i></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +37,7 @@
                                     <td>
                                         <i class="fa-solid fa-pen" role="button" routerLink=""></i>
                                         <span style="margin-left: 15px;"></span>
-                                        <i class="fa-regular fa-trash-can" role="button"></i>
+                                        <i class="fa-regular fa-trash-can" role="button" (click)="openModal('delete')"></i>
                                     </td>
                                 </tr>
                             }
@@ -54,13 +54,27 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-body">
-          <app-insert-employee></app-insert-employee>
+            @if (modalOperation == 'insert') {
+                <app-insert-employee
+                (modalState)="closeModal()"
+                (employeeToInsert)="addEmployee($event)"
+                >
+                </app-insert-employee>
+            }
+            @if (modalOperation == 'delete') {
+                <div class="h-75 d-flex align-items-center justify-content-center">
+                    <span>Are you sure you want to remove this employee?</span>
+                </div>
+                <div class="modal-footer mt-3">
+                    <button type="button" (click)="closeModal()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" (click)="removeEmployee()" class="btn btn-success">Remove</button>
+                </div>
+            }
+          
         </div>
-        <div class="modal-footer">
-          <button type="button" (click)="closeModal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success">Save</button>
-        </div>
+        
       </div>
     </div>
   </div>
+
 
