@@ -42,14 +42,13 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
     }
   };
 
-  export const deleteEmployee = async (data): Promise<void> => {
+  export const deleteEmployee = async (id): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:8080/employees/', {
+      const response = await fetch(`http://localhost:8080/employees/${id}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        }        
       });
 
       if (!response.ok) {

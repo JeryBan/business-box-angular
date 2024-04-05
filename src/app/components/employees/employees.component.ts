@@ -14,6 +14,7 @@ import { InsertEmployeeComponent } from './insert-employee/insert-employee.compo
 export class EmployeesComponent {
 
   employees: Employee[]
+  employeeId: Number
   modalOperation: string
 
   ngOnInit(): void {
@@ -42,7 +43,7 @@ export class EmployeesComponent {
 
   async removeEmployee(): Promise<void> {
     try {
-      await deleteEmployee(1);
+      await deleteEmployee(this.employeeId);
       this.closeModal();
       this.getEmployees();
 
@@ -51,16 +52,18 @@ export class EmployeesComponent {
     }
   }
 
-  openModal(operation: string) {
+  openModal(operation: string): void {
     this.modalOperation = operation;
     const modal = document.getElementById('modal')
     modal.style.display = 'block'
   }
 
-  closeModal() {
+  closeModal(): void {
     const modal = document.getElementById('modal')
     modal.style.display = 'none'
   }
   
-
+  getId(idx: number): void {
+    this.employeeId = this.employees[idx]['id']
+  }
 }

@@ -37,7 +37,7 @@
                                     <td>
                                         <i class="fa-solid fa-pen" role="button" routerLink=""></i>
                                         <span style="margin-left: 15px;"></span>
-                                        <i class="fa-regular fa-trash-can" role="button" (click)="openModal('delete')"></i>
+                                        <i class="fa-regular fa-trash-can" role="button" (click)="[openModal('delete'), getId(i)]"></i>
                                     </td>
                                 </tr>
                             }
@@ -63,7 +63,7 @@
             }
             @if (modalOperation == 'delete') {
                 <div class="h-75 d-flex align-items-center justify-content-center">
-                    <span>Are you sure you want to remove this employee?</span>
+                    <h5>Are you sure you want to remove this employee?</h5>
                 </div>
                 <div class="modal-footer mt-3">
                     <button type="button" (click)="closeModal()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
