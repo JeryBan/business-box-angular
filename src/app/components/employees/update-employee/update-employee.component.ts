@@ -1,17 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from 'src/app/shared/interfaces/employee';
 
 @Component({
-  selector: 'app-insert-employee',
+  selector: 'app-update-employee',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './insert-employee.component.html',
-  styleUrl: './insert-employee.component.css'
+  templateUrl: './update-employee.component.html',
+  styleUrl: './update-employee.component.css'
 })
-export class InsertEmployeeComponent {
+export class UpdateEmployeeComponent {
 
-  @Output() employeeToInsert = new EventEmitter<Employee>();
+  @Input() currentEmployee: Employee | undefined;
+  @Output() employeeToUpdate = new EventEmitter<Employee>();
   @Output() modalState = new EventEmitter<void>();
 
   employeeForm: FormGroup;
@@ -19,36 +20,33 @@ export class InsertEmployeeComponent {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     this.employeeForm = this.formBuilder.group({
-      firstName: [''],
-      lastName: ['', Validators.required],
-      phoneNumber: [''],
-      email: ['', Validators.email],
+      firstName: [this.currentEmployee.firstname],
+      lastName: [this.currentEmployee.lastname, Validators.required],
+      phoneNumber: [this.currentEmployee.phoneNumber],
+      email: [this.currentEmployee.email, Validators.email],
       filesPath: [null]
-    });
+    })
   }
 
   submit() {    
     if (this.employeeForm.valid) {
       this.employee = {
-        id: null,
+        id: this.currentEmployee.id,
         firstname: this.employeeForm.value.firstName,
         lastname: this.employeeForm.value.lastName,
         phoneNumber: this.employeeForm.value.phoneNumber,
         email: this.employeeForm.value.email,
         filesPath: this.employeeForm.value.filesPath
       };
-      this.employeeToInsert.emit(this.employee);
+      this.employeeToUpdate.emit(this.employee);
     } 
     
   }
   
-
   closeModal() {
     this.modalState.emit()
   }
-
-
 
 }

@@ -59,4 +59,23 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
       console.error('Error deleting employee: ', error.message)
     }
   };
+
+  export const updateEmployee = async (data, id): Promise<void> => {
+    try {
+      const response = await fetch(`http://localhost:8080/employees/${id}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if(!response.ok) {
+        throw new Error(`Failed to update employee. Status: ${response.status}`)
+      }
+
+    } catch (error) {
+      console.error('Error updating employee: ', error.message)
+    }
+  }
   

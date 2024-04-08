@@ -35,9 +35,9 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <i class="fa-solid fa-pen" role="button" routerLink=""></i>
+                                        <i class="fa-solid fa-pen" role="button" (click)="[openModal('update'), getEmployee(i)]"></i>
                                         <span style="margin-left: 15px;"></span>
-                                        <i class="fa-regular fa-trash-can" role="button" (click)="[openModal('delete'), getId(i)]"></i>
+                                        <i class="fa-regular fa-trash-can" role="button" (click)="[openModal('delete'), getEmployee(i)]"></i>
                                     </td>
                                 </tr>
                             }
@@ -69,6 +69,14 @@
                     <button type="button" (click)="closeModal()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" (click)="removeEmployee()" class="btn btn-success">Remove</button>
                 </div>
+            }
+            @if (modalOperation == 'update') {
+                <app-update-employee
+                    [currentEmployee]="selectedEmployee"
+                    (modalState)="closeModal()"
+                    (employeeToUpdate)="editEmployee($event)"
+                    >
+                </app-update-employee>
             }
           
         </div>

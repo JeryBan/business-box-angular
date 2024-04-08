@@ -1,0 +1,38 @@
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-body">
+            <h5>Edit Employee</h5>
+            <hr>
+            <div class="row">
+                <form class="d-flex gap-3" [formGroup]="employeeForm">
+                    <div class="col-md-6">                    
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" formControlName="email">
+                        </div>
+                    </div>    
+                    
+                    <div class="col-md-6">                    
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+                        </div>         
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer mt-3">
+                <button type="button" (click)="closeModal()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" (click)="submit()" class="btn btn-success">Save Changes</button>
+            </div>
+            
+        </div>
+    </div>
+</div>

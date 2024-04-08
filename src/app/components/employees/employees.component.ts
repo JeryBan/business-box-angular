@@ -1,31 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee } from 'src/app/shared/interfaces/employee';
-import { deleteEmployee, fetchEmployees, insertEmployee } from './employees.controller';
+import { deleteEmployee, fetchEmployees, insertEmployee, updateEmployee } from './employees.controller';
 import { InsertEmployeeComponent } from './insert-employee/insert-employee.component';
+import { UpdateEmployeeComponent } from "./update-employee/update-employee.component";
 
 @Component({
     selector: 'app-employees',
     standalone: true,
     templateUrl: './employees.component.html',
     styleUrl: './employees.component.css',
-    imports: [RouterLink, InsertEmployeeComponent]
+    imports: [RouterLink, InsertEmployeeComponent, UpdateEmployeeComponent]
 })
 export class EmployeesComponent {
 
-  employees: Employee[]
-  employeeId: Number
-  modalOperation: string
+  employees: Employee[] | undefined;
+  selectedEmployee: Employee | undefined;
+  modalOperation: string | undefined;
 
   ngOnInit(): void {
     this.getEmployees();
   }
+  
 
   async getEmployees(): Promise<void> {
     try {
       this.employees = await fetchEmployees();
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       this.employees = [];
     }
   }
@@ -37,19 +39,35 @@ export class EmployeesComponent {
       this.getEmployees();
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   }
 
   async removeEmployee(): Promise<void> {
     try {
-      await deleteEmployee(this.employeeId);
+      await deleteEmployee(this.selectedEmployee['id']);
       this.closeModal();
       this.getEmployees();
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
+  }
+
+  async editEmployee(data): Promise<void> {
+    try {
+      await updateEmployee(data, data['id']);
+      this.closeModal();
+      this.getEmployees();
+
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
+
+  getEmployee(idx: number): void {
+    this.selectedEmployee = this.employees[idx]
+    
   }
 
   openModal(operation: string): void {
@@ -63,7 +81,5 @@ export class EmployeesComponent {
     modal.style.display = 'none'
   }
   
-  getId(idx: number): void {
-    this.employeeId = this.employees[idx]['id']
-  }
+  
 }
