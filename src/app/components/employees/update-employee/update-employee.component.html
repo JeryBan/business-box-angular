@@ -9,10 +9,16 @@
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                            <small class="hidden">...</small>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email address</label>
+                            <label class="mt-2" for="email">Email address</label>
                             <input type="email" class="form-control" id="email" formControlName="email">
+                            @if (employeeForm.get("email").invalid) {
+                                <small class="text-danger">invalid email</small>
+                            } @else {
+                                <small class="hidden">...</small>
+                            }
                         </div>
                     </div>    
                     
@@ -20,17 +26,31 @@
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
                             <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                            @if (employeeForm.get("lastName").invalid) {
+                                <small class="text-danger">lastname is required</small>
+                            } @else() {
+                                <small class="hidden">...</small>
+                            }
                         </div>
                         <div class="form-group">
-                            <label for="phoneNumber">Phone Number</label>
+                            <label class="mt-2" for="phoneNumber">Phone Number</label>
                             <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+                            @if (employeeForm.get("phoneNumber").invalid) {
+                                <small class="text-danger">invalid phone number</small>
+                            }
                         </div>         
                     </div>
                 </form>
             </div>
-            <div class="modal-footer mt-3">
-                <button type="button" (click)="closeModal()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" (click)="submit()" class="btn btn-success">Save Changes</button>
+            <div class="modal-footer d-flex justify-content-between mt-3">
+                <div>
+                    <button type="button"  class="btn btn-secondary" data-dismiss="modal">Upload FIles</button>
+                </div>
+                <div>
+                    <button type="button" (click)="closeModal()"  class="btn btn-secondary me-2" data-dismiss="modal">Close</button>
+                    <button type="button" (click)="submit()" class="btn btn-success">Save Changes</button>
+                </div>
+                
             </div>
             
         </div>

@@ -9,10 +9,16 @@
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                            <small class="hidden">...</small>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email address</label>
+                            <label class="mt-2" for="email">Email address</label>
                             <input type="email" class="form-control" id="email" formControlName="email">
+                            @if (employeeForm.get("email").invalid) {
+                                <small class="text-danger">invalid email</small>
+                            } @else {
+                                <small class="hidden">...</small>
+                            }
                         </div>
                     </div>    
                     
@@ -20,10 +26,18 @@
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
                             <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                            @if (employeeForm.get("lastName").invalid) {
+                                <small class="text-danger">lastname is required</small>
+                            } @else() {
+                                <small class="hidden">...</small>
+                            }
                         </div>
                         <div class="form-group">
-                            <label for="phoneNumber">Phone Number</label>
+                            <label class="mt-2" for="phoneNumber">Phone Number</label>
                             <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+                            @if (employeeForm.get("phoneNumber").invalid) {
+                                <small class="text-danger">invalid phone number</small>
+                            }
                         </div>         
                     </div>
                 </form>

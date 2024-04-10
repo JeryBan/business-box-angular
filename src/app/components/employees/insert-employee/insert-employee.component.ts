@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from 'src/app/shared/interfaces/employee';
 
@@ -9,7 +9,7 @@ import { Employee } from 'src/app/shared/interfaces/employee';
   templateUrl: './insert-employee.component.html',
   styleUrl: './insert-employee.component.css'
 })
-export class InsertEmployeeComponent {
+export class InsertEmployeeComponent implements OnInit {
 
   @Output() employeeToInsert = new EventEmitter<Employee>();
   @Output() modalState = new EventEmitter<void>();
@@ -18,18 +18,19 @@ export class InsertEmployeeComponent {
   employee: Employee | undefined;
 
   constructor(private formBuilder: FormBuilder) {}
+  // formBuilder: FormBuilder = inject(FormBuilder);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.employeeForm = this.formBuilder.group({
       firstName: [''],
       lastName: ['', Validators.required],
-      phoneNumber: [''],
+      phoneNumber: ['', Validators.pattern('^[0-9]{10}$')],
       email: ['', Validators.email],
       filesPath: [null]
     });
   }
 
-  submit() {    
+  submit(): void {    
     if (this.employeeForm.valid) {
       this.employee = {
         id: null,
@@ -45,7 +46,7 @@ export class InsertEmployeeComponent {
   }
   
 
-  closeModal() {
+  closeModal(): void {
     this.modalState.emit()
   }
 

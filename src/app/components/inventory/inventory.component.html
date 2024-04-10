@@ -19,7 +19,7 @@
                         <div class="tab-content" id="v-pills-tabContent">
                             @for (category of categories; track category; let i = $index) {
                                 <div class="tab-pane fade {{i === 0 ? 'show active' : ''}}" id="v-pills-{{category}}" role="tabpanel" [attr.aria-labelledby]="'#v-pills-' + category + '-tab'">
-                                    <app-product-table [products]="classifiedProducts.get(category)"></app-product-table>
+                                    <app-product-table [products]="classifiedProducts.get(category)" (refresh)="refresh()"></app-product-table>
                                 </div>
                             }
                         </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from 'src/app/shared/interfaces/employee';
 
@@ -9,7 +9,7 @@ import { Employee } from 'src/app/shared/interfaces/employee';
   templateUrl: './update-employee.component.html',
   styleUrl: './update-employee.component.css'
 })
-export class UpdateEmployeeComponent {
+export class UpdateEmployeeComponent implements OnChanges {
 
   @Input() currentEmployee: Employee | undefined;
   @Output() employeeToUpdate = new EventEmitter<Employee>();
@@ -20,17 +20,17 @@ export class UpdateEmployeeComponent {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.employeeForm = this.formBuilder.group({
       firstName: [this.currentEmployee.firstname],
       lastName: [this.currentEmployee.lastname, Validators.required],
-      phoneNumber: [this.currentEmployee.phoneNumber],
+      phoneNumber: [this.currentEmployee.phoneNumber, Validators.pattern('^[0-9]{10}$')],
       email: [this.currentEmployee.email, Validators.email],
       filesPath: [null]
     })
   }
 
-  submit() {    
+  submit(): void {    
     if (this.employeeForm.valid) {
       this.employee = {
         id: this.currentEmployee.id,
@@ -45,7 +45,7 @@ export class UpdateEmployeeComponent {
     
   }
   
-  closeModal() {
+  closeModal(): void {
     this.modalState.emit()
   }
 

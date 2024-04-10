@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee } from 'src/app/shared/interfaces/employee';
 import { deleteEmployee, fetchEmployees, insertEmployee, updateEmployee } from './employees.controller';
@@ -12,13 +12,13 @@ import { UpdateEmployeeComponent } from "./update-employee/update-employee.compo
     styleUrl: './employees.component.css',
     imports: [RouterLink, InsertEmployeeComponent, UpdateEmployeeComponent]
 })
-export class EmployeesComponent {
+export class EmployeesComponent implements OnChanges {
 
-  employees: Employee[] | undefined;
+  employees: Employee[] = [];
   selectedEmployee: Employee | undefined;
   modalOperation: string | undefined;
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.getEmployees();
   }
   
