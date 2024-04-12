@@ -31,6 +31,23 @@
 }
 
 .tab-content {
-    height: 60vh;
     overflow-y: auto;
+}
+
+
+.add:hover, .add:focus {
+    color: var(--navy-green);
+    outline: none;
+}
+
+input {
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--navy-green);
+}
+input:focus {
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid var(--navy-green);
+    
 }

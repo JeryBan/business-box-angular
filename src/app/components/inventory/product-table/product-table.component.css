@@ -1,7 +1,26 @@
+.card {
+    min-height: 30vh;
+}
+
+.table-responsive {
+    overflow: visible !important;
+}
+
 .fa-trash-can:hover {
     color: red
 }
 
-.add:hover, .fa-pen:hover {
-    color: var(--navy-green);
+.dropdown-item:hover {
+    background-color: lightgrey;
+}
+
+.dropdown-menu {
+    border: 2px solid var(--navy-green);
+    max-height: 13vh;
+    overflow: auto;
+}
+
+input {
+    outline: none;
+    border: none;
 }

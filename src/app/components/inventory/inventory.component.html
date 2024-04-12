@@ -7,19 +7,58 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-md-2 col-sm-12">
                         <h6 class="p-3 category-title"><strong>Categories</strong></h6>
                         <ul class="nav flex-column nav-pills align-items-start" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             @for (category of categories; track category; let i = $index) {
-                                <button class="nav-link {{i === 0 ? 'active' : ''}}" id="v-pills-{{category}}-tab" data-bs-toggle="pill" [attr.data-bs-target]="'#v-pills-' + category" type="button" role="tab" [attr.aria-controls]="'#v-pills-' + category" aria-selected="false">{{category}}</button>
+                                <button (click)="captureCategory(category)" class="nav-link {{i === 0 ? 'active' : ''}}" id="v-pills-{{category}}-tab" data-bs-toggle="pill" [attr.data-bs-target]="'#v-pills-' + category" type="button" role="tab" [attr.aria-controls]="'#v-pills-' + category" aria-selected="false">{{category}}</button>
                             }    
                         </ul>      
                     </div>
-                    <div class="col-md-9 col-sm-12">
+                    <div class="col-md-10 col-sm-12">
+                        <div class="card p-4">
+                            <div class="">
+                                <form [formGroup]="productForm">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-column">
+                                            <input id="name" type="text" placeholder="name" formControlName="name">
+                                            @if (productForm.get("name").invalid && productForm.get("name").touched) {
+                                                <small class="text-danger">name is required</small>
+                                            }
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <input type="text" placeholder="quantity" formControlName="quantity">
+                                            @if (productForm.get("quantity").invalid && productForm.get("quantity").touched) {
+                                                <small class="text-danger">invalid value</small>
+                                            }
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <input type="text" placeholder="price" formControlName="price">
+                                            @if (productForm.get("price").invalid && productForm.get("price").touched) {
+                                                <small class="text-danger">invalid value</small>
+                                            }
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="description" formControlName="description">
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <input type="text" formControlName="category">  
+                                            @if (productForm.get("category").invalid && productForm.get("category").touched) {
+                                                <small class="text-danger">category is required</small>
+                                            }                                        
+                                        </div>
+                                        <span tabindex="0" class="add" role="button" (click)="addProduct()" (keyup.enter)="addProduct()">New<i class="fa-solid fa-plus p-1"></i></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><br>
                         <div class="tab-content" id="v-pills-tabContent">
                             @for (category of categories; track category; let i = $index) {
                                 <div class="tab-pane fade {{i === 0 ? 'show active' : ''}}" id="v-pills-{{category}}" role="tabpanel" [attr.aria-labelledby]="'#v-pills-' + category + '-tab'">
-                                    <app-product-table [products]="classifiedProducts.get(category)" (refresh)="refresh()"></app-product-table>
+                                    <app-product-table 
+                                        [products]="classifiedProducts.get(category)"
+                                        [categories]="categories"
+                                        (refresh)="refresh()"></app-product-table>
                                 </div>
                             }
                         </div>

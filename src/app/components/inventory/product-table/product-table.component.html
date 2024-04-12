@@ -9,24 +9,36 @@
                             <th>Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Description</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td><input class="mt-1" type="text" placeholder="name"></td>
-                            <td><input class="mt-1" type="text" placeholder="quantity"></td>
-                            <td><input class="mt-1" type="text" placeholder="price"></td>
-                            <td role="button" (click)="addProduct()"  class="d-flex gap-1 p-3 add">Add<i class="fa-solid fa-plus p-1"></i></td>
-                        </tr><br>
                         @for (product of products; track product; let i = $index) {
                             <tr>
                                 <td>{{i + 1}}</td>
-                                <td contenteditable="true">{{product.name}}</td>
-                                <td contenteditable="true">{{product.quantity}}</td>
-                                <td contenteditable="true">{{product.price}}</td>  
-                                <td><i class="fa-regular fa-trash-can" role="button" (click)="removeProduct(product)"></i></td>                              
+                                <td #tableName contenteditable="true" spellcheck="false" (blur)="editProduct(product, 'name', tableName.innerText)" aria-required="true">{{product.name}}</td>
+                                <td #tableQuantity contenteditable="true" (blur)="editProduct(product, 'quantity', tableQuantity.innerText)">{{product.quantity}}</td>
+                                <td #tablePrice contenteditable="true" (blur)="editProduct(product, 'price', tablePrice.innerText)">{{product.price}}</td>
+                                <td #tableDescription contenteditable="true" spellcheck="false" (blur)="editProduct(product, 'description', tableDescription.innerText)">{{product.description}}</td>  
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div ngbDropdown class="dropdown">
+                                            <button ngbDropdownToggle class="btn btn-sm btn-light" type="button" id="dropdownMenuButton1" aria-expanded="false">
+                                          Move
+                                          </button>
+                                            <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
+                                                <span><input #newCategory class="ps-3" type="text" (keyup.enter)="MoveProduct(product, newCategory.value)" placeholder="New Category"></span>
+                                                @for (category of categories; track category) {
+                                                    <span role="button" (click)="MoveProduct(product, category)" class="dropdown-item">{{category}}</span>
+                                                  }
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <i class="fa-regular fa-trash-can" role="button" (click)="removeProduct(product)"></i>
+                                        </div>
+                                    </div>
+                                </td>                              
                             </tr>
                         }
                     </tbody>
@@ -35,3 +47,6 @@
         </div>
     </div>
 </div>
+
+
+  
