@@ -1,8 +1,11 @@
 import { Product } from "src/app/shared/interfaces/product"
+import { environment } from "src/environments/environment";
+
+const endpoint = `${environment.serverURL}/products/`
 
 export const fetchProducts = async (): Promise<Product[]> => {
     try {
-        const response = await fetch('http://localhost:8080/products/', {
+        const response = await fetch(endpoint, {
             method: 'GET',
             headers: {
                 "Content-Type": 'application/json'
@@ -24,7 +27,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
 
 export const insertProduct = async (data): Promise<void> => {
     try {
-        const response = await fetch('http://localhost:8080/products/', {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +48,7 @@ export const insertProduct = async (data): Promise<void> => {
 
 export const deleteProduct = async (id): Promise<void> => {
     try {
-        const response = await fetch(`http://localhost:8080/products/${id}`, {
+        const response = await fetch(`${endpoint}/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": 'application/json'
@@ -63,7 +66,7 @@ export const deleteProduct = async (id): Promise<void> => {
 
 export const updateProduct = async (data, id): Promise<void> => {
     try {
-        const response = await fetch(`http://localhost:8080/products/${id}`, {
+        const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

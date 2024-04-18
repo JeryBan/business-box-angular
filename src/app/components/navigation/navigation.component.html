@@ -10,14 +10,13 @@
     <nav class="d-flex flex-column gap-5">
         <div class="business p-4">
             <div ngbDropdown class="dropdown">
-                <h5 ngbDropdownToggle class="" role="button" id="dropdownMenuButton1" aria-expanded="false">
+                <h5 ngbDropdownToggle role="button" id="dropdownMenuButton1" aria-expanded="false">
                 {{businessName}}
                 </h5>
-                <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
-                    <li>item</li>
-                    <li>item</li>
-                    <li></li>
-                    
+                <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1" class="ps-2">
+                    @for (business of otherBusiness; track business) {
+                        <li role="button">{{business}}</li>
+                    }             
                 </ul>
             </div>
         </div>

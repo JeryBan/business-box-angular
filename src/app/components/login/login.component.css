@@ -1,17 +1,15 @@
 .auth-wrapper {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     min-width: 100%;
-    min-height: 100vh;
-    background: #1abc9c;
-    
+    min-height: 95vh;
+    /* background: radial-gradient(circle, #19b192, #1abc8b);   */
+    background-image: url('../../../assets/images/login-bg.jpg');
+    background-position: center;
+    background-size: cover;
 }
 
-.auth-content {
-    position: relative;
-    padding: 15px;
-    z-index: 5;
+.hidden {
+    visibility: hidden;
 }

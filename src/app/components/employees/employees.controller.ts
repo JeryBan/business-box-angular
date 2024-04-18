@@ -1,8 +1,11 @@
 import { Employee } from "src/app/shared/interfaces/employee";
+import { environment } from "src/environments/environment";
+
+const endpoint = `${environment.serverURL}/employees/`
 
 export const fetchEmployees = async (): Promise<Employee[]> => {
     try {
-      const response = await fetch('http://localhost:8080/employees/', {
+      const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json"
@@ -24,7 +27,7 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
 
   export const insertEmployee = async (data): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:8080/employees/', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
@@ -44,7 +47,7 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
 
   export const deleteEmployee = async (id): Promise<void> => {
     try {
-      const response = await fetch(`http://localhost:8080/employees/${id}`, {
+      const response = await fetch(`${endpoint}${id}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json"
@@ -62,7 +65,7 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
 
   export const updateEmployee = async (data, id): Promise<void> => {
     try {
-      const response = await fetch(`http://localhost:8080/employees/${id}`, {
+      const response = await fetch(`${endpoint}${id}`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"

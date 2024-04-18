@@ -39,3 +39,8 @@ nav span {
     background-color: #E9E9E9;
     width: 100%;
 }
+
+.dropdown > ul {
+    background-color: #3E5871;
+    color: white;
+}
