@@ -2,13 +2,15 @@ import { Product } from "src/app/shared/interfaces/product"
 import { environment } from "src/environments/environment";
 
 const endpoint = `${environment.serverURL}/products/`
+const access_token = localStorage.getItem('access_token')
 
 export const fetchProducts = async (): Promise<Product[]> => {
     try {
         const response = await fetch(endpoint, {
             method: 'GET',
             headers: {
-                "Content-Type": 'application/json'
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${access_token}`
             }
         });
 
@@ -30,7 +32,8 @@ export const insertProduct = async (data): Promise<void> => {
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${access_token}`
             },
             body: JSON.stringify(data)
         });
@@ -51,7 +54,8 @@ export const deleteProduct = async (id): Promise<void> => {
         const response = await fetch(`${endpoint}/${id}`, {
             method: 'DELETE',
             headers: {
-                "Content-Type": 'application/json'
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${access_token}`
             }
         });
 
@@ -69,7 +73,8 @@ export const updateProduct = async (data, id): Promise<void> => {
         const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${access_token}`
         },
         body: JSON.stringify(data)
     });

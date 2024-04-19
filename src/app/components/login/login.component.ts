@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { User } from 'src/app/shared/interfaces/user';
+import { jwtDecode } from 'jwt-decode';
+import { LoggedUser, User } from 'src/app/shared/interfaces/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -13,27 +14,40 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   userService: UserService = inject(UserService);
   router: Router = inject(Router);
+  formBuilder: FormBuilder = inject(FormBuilder);
 
+  loginForm: FormGroup;
   userRegistered: Boolean = false;
 
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required)
-  });
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    })
+  }
+
 
   registerUser() {
     const user = this.loginForm.value as User;
 
     this.userService.registerUser(user).subscribe({
       next: (response) => {
-        console.log(response.msg)
+        const access_token = response.access_token;
+        localStorage.setItem('access_token', access_token);
+
+        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedUser;
+        this.userService.loggedUser.set({
+          email: decodedTokenSubject.email
+        });
+
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
-        if (error.status == '409') {
+        if (error.status == 409) {
           console.error('User already exists.')
         } else {
           console.error('Error registering user', error.message);
@@ -47,13 +61,19 @@ export class LoginComponent {
   
     this.userService.loginUser(user).subscribe({
       next: (response) => {
-        if (response.status == 200) {
-          this.userRegistered = true;
-          this.router.navigate(['/dashboard']);
-        }
+        const access_token = response.access_token;
+        localStorage.setItem('access_token', access_token);
+
+        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedUser;
+        this.userService.loggedUser.set({
+          email: decodedTokenSubject.email
+        });
+
+        this.router.navigate(['/dashboard']);
+        
       },
       error: (error) => {
-        if (error.status == '401') {
+        if (error.status == 401) {
           console.error('Unauthorized.')
           this.userRegistered = false;
         } else {

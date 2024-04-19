@@ -2,13 +2,15 @@ import { Employee } from "src/app/shared/interfaces/employee";
 import { environment } from "src/environments/environment";
 
 const endpoint = `${environment.serverURL}/employees/`
+const access_token = localStorage.getItem('access_token')
 
 export const fetchEmployees = async (): Promise<Employee[]> => {
     try {
       const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access_token}`
         }
       });
   
@@ -30,7 +32,8 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access_token}`
         },
         body: JSON.stringify(data)
       });
@@ -50,7 +53,8 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
       const response = await fetch(`${endpoint}${id}`, {
         method: 'DELETE',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access_token}`
         }        
       });
 
@@ -68,7 +72,8 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
       const response = await fetch(`${endpoint}${id}`, {
         method: 'PUT',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access_token}`
         },
         body: JSON.stringify(data)
       });
