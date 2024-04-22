@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   formBuilder: FormBuilder = inject(FormBuilder);
 
   loginForm: FormGroup;
-  userRegistered: Boolean = false;
+  user = this.userService.loggedUser;
 
 
   ngOnInit(): void {
@@ -35,9 +35,9 @@ export class LoginComponent implements OnInit {
 
 
   registerUser() {
-    const user = this.loginForm.value as User;
+    const newUser = this.loginForm.value as User;
 
-    this.userService.registerUser(user).subscribe({
+    this.userService.registerUser(newUser).subscribe({
       next: (response) => {
         const access_token = response.access_token;
         localStorage.setItem('access_token', access_token);
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         // extract jwt claims
         const decodedTokenSubject = jwtDecode(access_token).sub as unknown as { email: string }
         // update loggedUser signal
-        this.userService.loggedUser.set({
+        this.user.set({
           username: String(decodedTokenSubject)
         });
         
@@ -63,9 +63,9 @@ export class LoginComponent implements OnInit {
 
 
   signIn() {
-    const user = this.loginForm.value as User;
+    const newUser = this.loginForm.value as User;
   
-    this.userService.loginUser(user).subscribe({
+    this.userService.loginUser(newUser).subscribe({
       next: (response) => {
         const access_token = response.access_token;
         localStorage.setItem('access_token', access_token);
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
         // extract jwt claims
         const decodedTokenSubject = jwtDecode(access_token).sub as unknown as string
         // update loggedUser signal
-        this.userService.loggedUser.set({
+        this.user.set({
           username: decodedTokenSubject
         })
         
@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit {
       error: (error) => {
         if (error.status == 401) {
           console.error('Unauthorized log in.')
-          this.userRegistered = false;
         } else {
           console.error('Error login in:', error.mesage);
         }

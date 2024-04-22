@@ -11,8 +11,8 @@
         <div id="businessMenu" class="business initial-height" [@expandCollapse]="menuState">
             <div class="d-flex align-items-center gap-2 p-3 dropdown-toggle" role="button" (click)="toggleMenu()">
                 <h5>
-                    @if (businessService.activeBusiness()) {
-                        {{businessService.activeBusiness().name}}
+                    @if (activeBusiness()) {
+                        {{activeBusiness().name}}
                     }
                 </h5>
             </div>
@@ -44,8 +44,7 @@
             <span>Settings</span>
             <ul class="mt-3">
                 <li class="btn"><i class="fa-solid fa-gear pe-2"></i>General</li>
-                <li class="btn"><i class="fa-regular fa-circle-user pe-2"></i>Account</li>
-                <li class="btn"><i class="fa-solid fa-table-columns pe-2"></i>Dashboard</li>                
+                <li class="btn"><i class="fa-regular fa-circle-user pe-2"></i>Account</li>              
             </ul>
         </div>
     </nav>

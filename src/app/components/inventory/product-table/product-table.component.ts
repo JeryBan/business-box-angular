@@ -17,7 +17,8 @@ export class ProductTableComponent {
   @Input() categories: Set<string>;
   @Output() refresh = new EventEmitter<void>();
 
-  businessService: BusinessService = inject(BusinessService);
+  businessService: BusinessService = inject(BusinessService);  
+  activeBusiness = this.businessService.activeBusiness;
 
   async removeProduct(product: Product): Promise<void> {
     try {
@@ -27,12 +28,11 @@ export class ProductTableComponent {
     } catch (error) {
     console.error(error.message);
     }
-
   }
 
   async MoveProduct(product: Product, category: string) {
     product.category = category;
-    product.business = this.businessService.activeBusiness()
+    product.business = this.activeBusiness()
     console.log(product)
     await updateProduct(product, product.id);
     this.refresh.emit()
@@ -40,7 +40,7 @@ export class ProductTableComponent {
 
   async editProduct(product: Product, key: string, value: string) {
     product[key] = (key === 'price' || key === 'quantity') ? Number(value) : value;
-    product.business = this.businessService.activeBusiness()
+    product.business = this.activeBusiness()
     console.log(product)
     await updateProduct(product, product.id);
   }

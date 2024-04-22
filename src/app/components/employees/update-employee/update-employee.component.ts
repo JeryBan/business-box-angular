@@ -16,11 +16,12 @@ export class UpdateEmployeeComponent implements OnChanges {
   @Output() employeeToUpdate = new EventEmitter<Employee>();
   @Output() modalState = new EventEmitter<void>();
 
-  employeeForm: FormGroup;
-  employee: Employee | undefined;
-
   formBuilder: FormBuilder = inject(FormBuilder);
   businessService: BusinessService = inject(BusinessService);
+
+  employeeForm: FormGroup;
+  employee: Employee | undefined;
+  activeBusiness = this.businessService.activeBusiness;
 
   ngOnChanges(): void {
     this.employeeForm = this.formBuilder.group({
@@ -32,7 +33,8 @@ export class UpdateEmployeeComponent implements OnChanges {
     })
   }
 
-  submit(): void {    
+
+  submitEmployee(): void {    
     if (this.employeeForm.valid) {
       this.employee = {
         id: this.currentEmployee.id,
@@ -41,7 +43,7 @@ export class UpdateEmployeeComponent implements OnChanges {
         phoneNumber: this.employeeForm.value.phoneNumber,
         email: this.employeeForm.value.email,
         filesPath: this.employeeForm.value.filesPath,
-        business: this.businessService.activeBusiness()
+        business: this.activeBusiness()
       };
       this.employeeToUpdate.emit(this.employee);
     } 

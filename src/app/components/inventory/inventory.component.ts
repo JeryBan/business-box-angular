@@ -14,14 +14,15 @@ import { BusinessService } from 'src/app/shared/services/business.service';
 })
 export class InventoryComponent implements OnInit {
 
+  formBuilder: FormBuilder = inject(FormBuilder);
+  businessService: BusinessService = inject(BusinessService);
+
   products: Product[] = [];
   newProduct: Product;
   categories: Set<string>;
   classifiedProducts: Map<string, Product[]>;
   productForm: FormGroup;
-
-  formBuilder: FormBuilder = inject(FormBuilder);
-  businessService: BusinessService = inject(BusinessService);
+  activeBusiness = this.businessService.activeBusiness;
 
   ngOnInit(): void {
 
@@ -42,7 +43,7 @@ export class InventoryComponent implements OnInit {
 
   async getProducts(): Promise<void> {
     try {
-      this.products = await fetchProducts(this.businessService.activeBusiness().id);
+      this.products = await fetchProducts(this.activeBusiness().id);
       this.categories = this.categoryClassifier(this.products);
       this.classifiedProducts = this.productsByCategory(this.products, this.categories);
 
@@ -61,7 +62,7 @@ export class InventoryComponent implements OnInit {
         quantity: this.productForm.value.quantity,
         price: this.productForm.value.price,
         description: this.productForm.value.description,
-        business: this.businessService.activeBusiness()
+        business: this.activeBusiness()
         
       }
 
@@ -89,10 +90,6 @@ export class InventoryComponent implements OnInit {
     });
 
     return classifiedProducts;
-  }
-
-  captureCategory(category: string): void {
-    if (category) this.productForm.get('category').setValue(category);
   }
 
 }

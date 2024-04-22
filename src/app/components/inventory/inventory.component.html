@@ -11,7 +11,7 @@
                         <h6 class="p-3 category-title"><strong>Categories</strong></h6>
                         <ul class="nav flex-column nav-pills align-items-start" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             @for (category of categories; track category; let i = $index) {
-                                <button (click)="captureCategory(category)" class="nav-link {{i === 0 ? 'active' : ''}}" id="v-pills-{{category}}-tab" data-bs-toggle="pill" [attr.data-bs-target]="'#v-pills-' + category" type="button" role="tab" [attr.aria-controls]="'#v-pills-' + category" aria-selected="false">{{category}}</button>
+                                <button (click)="productForm.get('category').setValue(category)" class="nav-link {{i === 0 ? 'active' : ''}}" id="v-pills-{{category}}-tab" data-bs-toggle="pill" [attr.data-bs-target]="'#v-pills-' + category" type="button" role="tab" [attr.aria-controls]="'#v-pills-' + category" aria-selected="false">{{category}}</button>
                             }    
                         </ul>      
                     </div>

@@ -15,12 +15,13 @@ import { BusinessService } from 'src/app/shared/services/business.service';
 })
 export class EmployeesComponent implements OnInit {
 
-  employees: Employee[] = [];
-  selectedEmployee: Employee | undefined;
-  modalOperation: string | undefined;
-
   businessService: BusinessService = inject(BusinessService);
 
+  employees: Employee[] = [];
+  selectedEmployee: Employee | undefined;
+  activeBusiness = this.businessService.activeBusiness;
+  modalOperation: string | undefined;
+ 
   ngOnInit(): void {
     this.getEmployees();
   }
@@ -28,7 +29,7 @@ export class EmployeesComponent implements OnInit {
 
   async getEmployees(): Promise<void> {
     try {
-      this.employees = await fetchEmployees(this.businessService.activeBusiness().id);
+      this.employees = await fetchEmployees(this.activeBusiness().id);
     } catch (error) {
       console.error(error.message);
       this.employees = [];
@@ -68,11 +69,6 @@ export class EmployeesComponent implements OnInit {
     }
   }
 
-  getEmployee(idx: number): void {
-    this.selectedEmployee = this.employees[idx]
-    
-  }
-
   openModal(operation: string): void {
     this.modalOperation = operation;
     const modal = document.getElementById('modal')
@@ -83,6 +79,5 @@ export class EmployeesComponent implements OnInit {
     const modal = document.getElementById('modal')
     modal.style.display = 'none'
   }
-  
   
 }

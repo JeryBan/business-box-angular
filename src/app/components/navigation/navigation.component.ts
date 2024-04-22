@@ -43,6 +43,8 @@ export class NavigationComponent {
   businessList: Business[] | null
   menuState: string;
   currentView: string
+  user = this.userService.loggedUser
+  activeBusiness = this.businessService.activeBusiness
 
   constructor() {
     this.menuState = 'collapsed';
@@ -50,14 +52,14 @@ export class NavigationComponent {
 
     effect( () => {
       if (this.userService.loggedUser()) {
-        this.fetchBusinessList(this.userService.loggedUser().username)
+        this.fetchBusinessList(this.user().username)
       }
     })
 
   }
 
   selectBusiness(business: Business): void {
-    this.businessService.activeBusiness.set(business)
+    this.activeBusiness.set(business)
     this.menuState = 'collapsed';
   }
 
@@ -67,7 +69,7 @@ export class NavigationComponent {
         this.businessList = response;
 
         if (this.businessList && this.businessList.length > 0) {
-          this.businessService.activeBusiness.set(this.businessList[0]);
+          this.activeBusiness.set(this.businessList[0]);
         }
 
       },
@@ -80,7 +82,7 @@ export class NavigationComponent {
   addBusiness(name: string): void {
     const businessToInsert: BusinessToInsert = {
       name: name,
-      email: this.userService.loggedUser().username
+      email: this.user().username
     }
 
     this.businessService.addBusinessToUser(businessToInsert, localStorage.getItem('access_token')).subscribe({
@@ -97,12 +99,7 @@ export class NavigationComponent {
   }
 
   logout() {
-    this.userService.loggedUser.set(null)
-    this.businessService.activeBusiness.set(null)
-
-    this.router.navigate(['login'])
-
-    //TODO: invalidate token
+    this.userService.logoutUser();
   }
 
   toggleMenu(): void {
@@ -112,7 +109,6 @@ export class NavigationComponent {
   goTo(route: string) {
     this.currentView = route;
   }
-
 
 }
 

@@ -15,11 +15,12 @@ export class InsertEmployeeComponent implements OnInit {
   @Output() employeeToInsert = new EventEmitter<Employee>();
   @Output() modalState = new EventEmitter<void>();
 
-  employeeForm: FormGroup;
-  employee: Employee | undefined;
-
   businessService: BusinessService = inject(BusinessService);
   formBuilder: FormBuilder = inject(FormBuilder);
+
+  employeeForm: FormGroup;
+  employee: Employee | undefined;
+  activeBusiness = this.businessService.activeBusiness;
 
   ngOnInit(): void {
     this.employeeForm = this.formBuilder.group({
@@ -31,7 +32,7 @@ export class InsertEmployeeComponent implements OnInit {
     });
   }
 
-  submit(): void {    
+  submitEmployee(): void {    
     if (this.employeeForm.valid) {
       this.employee = {
         id: null,
@@ -40,19 +41,15 @@ export class InsertEmployeeComponent implements OnInit {
         phoneNumber: this.employeeForm.value.phoneNumber,
         email: this.employeeForm.value.email,
         filesPath: this.employeeForm.value.filesPath,
-        business: this.businessService.activeBusiness()
+        business: this.activeBusiness()
         
       };
       this.employeeToInsert.emit(this.employee);
-    } 
-    
+    }     
   }
   
-
   closeModal(): void {
     this.modalState.emit()
   }
-
-
 
 }

@@ -35,9 +35,9 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <i class="fa-solid fa-pen" role="button" (click)="[openModal('update'), getEmployee(i)]"></i>
+                                        <i class="fa-solid fa-pen" role="button" (click)="[openModal('update'), selectedEmployee=employees[i]]"></i>
                                         <span style="margin-left: 15px;"></span>
-                                        <i class="fa-regular fa-trash-can" role="button" (click)="[openModal('delete'), getEmployee(i)]"></i>
+                                        <i class="fa-regular fa-trash-can" role="button" (click)="[openModal('delete'), selectedEmployee=employees[i]]"></i>
                                     </td>
                                 </tr>
                             }
