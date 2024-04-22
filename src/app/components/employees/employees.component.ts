@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee } from 'src/app/shared/interfaces/employee';
 import { deleteEmployee, fetchEmployees, insertEmployee, updateEmployee } from './employees.controller';
 import { InsertEmployeeComponent } from './insert-employee/insert-employee.component';
 import { UpdateEmployeeComponent } from "./update-employee/update-employee.component";
+import { BusinessService } from 'src/app/shared/services/business.service';
 
 @Component({
     selector: 'app-employees',
@@ -18,6 +19,8 @@ export class EmployeesComponent implements OnInit {
   selectedEmployee: Employee | undefined;
   modalOperation: string | undefined;
 
+  businessService: BusinessService = inject(BusinessService);
+
   ngOnInit(): void {
     this.getEmployees();
   }
@@ -25,7 +28,7 @@ export class EmployeesComponent implements OnInit {
 
   async getEmployees(): Promise<void> {
     try {
-      this.employees = await fetchEmployees();
+      this.employees = await fetchEmployees(this.businessService.activeBusiness().id);
     } catch (error) {
       console.error(error.message);
       this.employees = [];

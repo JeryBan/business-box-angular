@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from 'src/app/shared/interfaces/employee';
+import { BusinessService } from 'src/app/shared/services/business.service';
 
 @Component({
   selector: 'app-insert-employee',
@@ -17,8 +18,8 @@ export class InsertEmployeeComponent implements OnInit {
   employeeForm: FormGroup;
   employee: Employee | undefined;
 
-  constructor(private formBuilder: FormBuilder) {}
-  // formBuilder: FormBuilder = inject(FormBuilder);
+  businessService: BusinessService = inject(BusinessService);
+  formBuilder: FormBuilder = inject(FormBuilder);
 
   ngOnInit(): void {
     this.employeeForm = this.formBuilder.group({
@@ -38,7 +39,9 @@ export class InsertEmployeeComponent implements OnInit {
         lastname: this.employeeForm.value.lastName,
         phoneNumber: this.employeeForm.value.phoneNumber,
         email: this.employeeForm.value.email,
-        filesPath: this.employeeForm.value.filesPath
+        filesPath: this.employeeForm.value.filesPath,
+        business: this.businessService.activeBusiness()
+        
       };
       this.employeeToInsert.emit(this.employee);
     } 

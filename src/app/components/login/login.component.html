@@ -1,14 +1,24 @@
-<div class="auth-wrapper container">
-	<div class="auth-content text-center col-md-3">
-		<div class="card borderless">
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-10">
-					<div class="card-body">
-						<h3 class="mb-3 f-w-400">Log in</h3>
-						<hr>
+<div class="d-flex justify-content-between login-wrapper">
+	<div class="welcome-note col-md-5 d-flex flex-column justify-content-center align-items-center">
+		<span style="font-size: 60px;">Welcome To </span>
+		<span style="font-size: 70px;">Business Box</span>
+	</div>
+
+	<div class="col-md-1 d-flex justify-content-center align-items-center">
+		<div class="seperator"></div>
+	</div>
+
+	<div class="auth-wrapper container col-md-6 d-flex justify-content-center align-items-center">
+		<div class="text-center col-md-7">
+			<div class="card">
+				<div class="row d-flex justify-content-center">
+					<div class="col-md-10">						
+						<div class="mb-4">
+							<i class="fa-solid fa-users"></i>
+						</div>
 
 						<form [formGroup]="loginForm">
-							<div class="form-group mb-3">
+							<div class="form-group mb-4">
 								<input type="email" class="form-control" id="Email" formControlName="email" placeholder="Email address">
 								@if (loginForm.get('email').invalid && loginForm.get('email').touched) {
 									<div class="d-flex ms-2">
@@ -29,14 +39,20 @@
 								<label class="custom-control-label" for="customCheck1">Remeber me</label>
 							</div>
 						</form>
-						<br>
+						<br><br>
 
-						<button class="btn btn-block btn-success mb-4" (click)="signIn()">Sign in</button>
+						<button class="btn btn-success mb-4" (click)="signIn()">LOGIN</button>
 						<hr>
-						<p class="mb-0 text-muted">Don’t have an account? <a role="button" (click)="registerUser()" class="f-w-400">Register</a></p>
+						<p class="mb-0 text-muted">Don’t have an account? <a role="button" (click)="registerUser()" class="f-w-400">Register instead</a></p>						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<footer>
+	<!-- TODO -->
+</footer>
+
+

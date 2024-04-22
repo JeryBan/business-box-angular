@@ -3,6 +3,7 @@ import { Product } from 'src/app/shared/interfaces/product';
 import { ProductTableComponent } from "./product-table/product-table.component";
 import { fetchProducts, insertProduct } from './inventory.controller';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BusinessService } from 'src/app/shared/services/business.service';
 
 @Component({
     selector: 'app-inventory',
@@ -17,12 +18,12 @@ export class InventoryComponent implements OnInit {
   newProduct: Product;
   categories: Set<string>;
   classifiedProducts: Map<string, Product[]>;
-
   productForm: FormGroup;
+
   formBuilder: FormBuilder = inject(FormBuilder);
+  businessService: BusinessService = inject(BusinessService);
 
   ngOnInit(): void {
-    this.getProducts();
 
     this.productForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -31,6 +32,8 @@ export class InventoryComponent implements OnInit {
       description: [''],
       category: ['', Validators.required]
     })
+
+    this.getProducts();
   }
 
   refresh(): void {
@@ -39,7 +42,7 @@ export class InventoryComponent implements OnInit {
 
   async getProducts(): Promise<void> {
     try {
-      this.products = await fetchProducts();
+      this.products = await fetchProducts(this.businessService.activeBusiness().id);
       this.categories = this.categoryClassifier(this.products);
       this.classifiedProducts = this.productsByCategory(this.products, this.categories);
 
@@ -54,18 +57,18 @@ export class InventoryComponent implements OnInit {
       this.newProduct = {
         id: null,
         name: this.productForm.value.name,
+        category: this.productForm.value.category,
         quantity: this.productForm.value.quantity,
         price: this.productForm.value.price,
         description: this.productForm.value.description,
-        category: this.productForm.value.category
+        business: this.businessService.activeBusiness()
+        
       }
-      console.log(this.newProduct)
 
       await insertProduct(this.newProduct);
       this.productForm.reset();
     }
-    this.getProducts();
-    
+    this.getProducts();    
   }
  
 

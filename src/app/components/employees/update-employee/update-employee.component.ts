@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from 'src/app/shared/interfaces/employee';
+import { BusinessService } from 'src/app/shared/services/business.service';
 
 @Component({
   selector: 'app-update-employee',
@@ -18,7 +19,8 @@ export class UpdateEmployeeComponent implements OnChanges {
   employeeForm: FormGroup;
   employee: Employee | undefined;
 
-  constructor(private formBuilder: FormBuilder) {}
+  formBuilder: FormBuilder = inject(FormBuilder);
+  businessService: BusinessService = inject(BusinessService);
 
   ngOnChanges(): void {
     this.employeeForm = this.formBuilder.group({
@@ -38,7 +40,8 @@ export class UpdateEmployeeComponent implements OnChanges {
         lastname: this.employeeForm.value.lastName,
         phoneNumber: this.employeeForm.value.phoneNumber,
         email: this.employeeForm.value.email,
-        filesPath: this.employeeForm.value.filesPath
+        filesPath: this.employeeForm.value.filesPath,
+        business: this.businessService.activeBusiness()
       };
       this.employeeToUpdate.emit(this.employee);
     } 

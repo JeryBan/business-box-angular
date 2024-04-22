@@ -1,3 +1,5 @@
+import { Business } from "./business"
+
 export interface Employee {
     id: number,
     firstname: string,
@@ -5,5 +7,6 @@ export interface Employee {
     email: string,
     phoneNumber: string
     filesPath: string
+    business: Business
   };
   

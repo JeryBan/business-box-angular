@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from 'src/app/shared/interfaces/product';
 import { deleteProduct, updateProduct } from '../inventory.controller';
+import { BusinessService } from 'src/app/shared/services/business.service';
 
 @Component({
   selector: 'app-product-table',
@@ -16,6 +17,7 @@ export class ProductTableComponent {
   @Input() categories: Set<string>;
   @Output() refresh = new EventEmitter<void>();
 
+  businessService: BusinessService = inject(BusinessService);
 
   async removeProduct(product: Product): Promise<void> {
     try {
@@ -30,12 +32,16 @@ export class ProductTableComponent {
 
   async MoveProduct(product: Product, category: string) {
     product.category = category;
+    product.business = this.businessService.activeBusiness()
+    console.log(product)
     await updateProduct(product, product.id);
     this.refresh.emit()
   }
 
   async editProduct(product: Product, key: string, value: string) {
     product[key] = (key === 'price' || key === 'quantity') ? Number(value) : value;
+    product.business = this.businessService.activeBusiness()
+    console.log(product)
     await updateProduct(product, product.id);
   }
 }

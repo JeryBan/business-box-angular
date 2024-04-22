@@ -8,25 +8,35 @@
   
 <div class="d-flex">
     <nav class="d-flex flex-column gap-5">
-        <div class="business p-4">
-            <div ngbDropdown class="dropdown">
-                <h5 ngbDropdownToggle role="button" id="dropdownMenuButton1" aria-expanded="false">
-                {{businessName}}
+        <div id="businessMenu" class="business initial-height" [@expandCollapse]="menuState">
+            <div class="d-flex align-items-center gap-2 p-3 dropdown-toggle" role="button" (click)="toggleMenu()">
+                <h5>
+                    @if (businessService.activeBusiness()) {
+                        {{businessService.activeBusiness().name}}
+                    }
                 </h5>
-                <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1" class="ps-2">
-                    @for (business of otherBusiness; track business) {
-                        <li role="button">{{business}}</li>
+            </div>
+            <div>
+                <ul>
+                    @if (businessList) {
+                        @for (business of businessList; track business) {
+                            <li role="button" (click)="selectBusiness(business)">
+                                {{business.name}}
+                            </li>
+                        }  
                     }             
+                    <li><input #businessInput type="text" class="business-input" placeholder="Add New Business"  (keyup.enter)="addBusiness(businessInput.value); businessInput.value = '' "></li>
                 </ul>
             </div>
+            
         </div>
     
         <div class="navigation flex-grow-1">
             <span>Navigation</span>
             <ul class="mt-3">
-              <li class="btn" role="button" routerLink="dashboard"><i class="fa-solid fa-house pe-2"></i>Dashboard</li>
-              <li class="btn" role="button" routerLink="employees"><i class="fa-regular fa-user pe-2"></i>Employees</li>
-              <li class="btn" role="button" routerLink="inventory"><i class="fa-solid fa-cube pe-2"></i>Inventory</li>
+              <li class="btn" role="button" (click)="goTo('dashboard')"><i class="fa-solid fa-house pe-2"></i>Dashboard</li>
+              <li class="btn" role="button" (click)="goTo('employees')"><i class="fa-regular fa-user pe-2"></i>Employees</li>
+              <li class="btn" role="button" (click)="goTo('inventory')"><i class="fa-solid fa-cube pe-2"></i>Inventory</li>
             </ul>
         </div>
     
@@ -41,7 +51,9 @@
     </nav>
   
     <div class="main">
-        <router-outlet></router-outlet>
+        @if (currentView == 'dashboard') {<app-dashboard></app-dashboard>}
+        @else if (currentView == 'employees') {<app-employees></app-employees>}
+        @else if (currentView == 'inventory') {<app-inventory></app-inventory>}        
     </div>
 </div>
   

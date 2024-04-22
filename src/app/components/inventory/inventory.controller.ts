@@ -1,12 +1,12 @@
 import { Product } from "src/app/shared/interfaces/product"
 import { environment } from "src/environments/environment";
 
-const endpoint = `${environment.serverURL}/products/`
+const endpoint = `${environment.serverURL}/products`
 const access_token = localStorage.getItem('access_token')
 
-export const fetchProducts = async (): Promise<Product[]> => {
+export const fetchProducts = async (businessId): Promise<Product[]> => {
     try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(`${endpoint}/${businessId}`, {
             method: 'GET',
             headers: {
                 "Content-Type": 'application/json',
@@ -27,9 +27,9 @@ export const fetchProducts = async (): Promise<Product[]> => {
     }
 }
 
-export const insertProduct = async (data): Promise<void> => {
+export const insertProduct = async (data: Product): Promise<void> => {
     try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(`${endpoint}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export const deleteProduct = async (id): Promise<void> => {
     }
 }
 
-export const updateProduct = async (data, id): Promise<void> => {
+export const updateProduct = async (data: Product, id): Promise<void> => {
     try {
         const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',

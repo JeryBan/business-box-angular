@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { LoggedUser, User } from 'src/app/shared/interfaces/user';
+import { User } from 'src/app/shared/interfaces/user';
+import { BusinessService } from 'src/app/shared/services/business.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -17,11 +18,13 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class LoginComponent implements OnInit {
 
   userService: UserService = inject(UserService);
+  businessService: BusinessService = inject(BusinessService);
   router: Router = inject(Router);
   formBuilder: FormBuilder = inject(FormBuilder);
 
   loginForm: FormGroup;
   userRegistered: Boolean = false;
+
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -39,12 +42,14 @@ export class LoginComponent implements OnInit {
         const access_token = response.access_token;
         localStorage.setItem('access_token', access_token);
 
-        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedUser;
+        // extract jwt claims
+        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as { email: string }
+        // update loggedUser signal
         this.userService.loggedUser.set({
-          email: decodedTokenSubject.email
+          username: String(decodedTokenSubject)
         });
-
-        this.router.navigate(['/dashboard']);
+        
+        this.router.navigate(['home'])
       },
       error: (error) => {
         if (error.status == 409) {
@@ -56,6 +61,7 @@ export class LoginComponent implements OnInit {
     })
   }
 
+
   signIn() {
     const user = this.loginForm.value as User;
   
@@ -64,17 +70,19 @@ export class LoginComponent implements OnInit {
         const access_token = response.access_token;
         localStorage.setItem('access_token', access_token);
 
-        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedUser;
+        // extract jwt claims
+        const decodedTokenSubject = jwtDecode(access_token).sub as unknown as string
+        // update loggedUser signal
         this.userService.loggedUser.set({
-          email: decodedTokenSubject.email
-        });
-
-        this.router.navigate(['/dashboard']);
+          username: decodedTokenSubject
+        })
         
+        this.router.navigate(['home'])
+           
       },
       error: (error) => {
         if (error.status == 401) {
-          console.error('Unauthorized.')
+          console.error('Unauthorized log in.')
           this.userRegistered = false;
         } else {
           console.error('Error login in:', error.mesage);

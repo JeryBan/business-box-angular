@@ -1,7 +1,3 @@
-:host {
-    --header-color: #2C3E50;
-}
-
 li {
     margin-bottom: 0.9rem;
     padding: 0;
@@ -23,24 +19,26 @@ nav {
 nav span {
     padding-left: 0.7rem;
     font-size: 15px;
-    color: var(--navy-green)
+    color: var(--navy-green);
 }
 
-.business{padding-left: 0;}
+.business{
+    padding-left: 0;
+    background-color: #3E5871;
+}
+
+.business-input {
+    color: white;
+    background-color: #3E5871;
+    outline: none;
+    border: none;
+}
 
 .btn {color: white;}
 .btn:hover {color: var(--navy-green);}
-
-.business {
-    background-color: #3E5871;
-}
 
 .main {
     background-color: #E9E9E9;
     width: 100%;
 }
 
-.dropdown > ul {
-    background-color: #3E5871;
-    color: white;
-}

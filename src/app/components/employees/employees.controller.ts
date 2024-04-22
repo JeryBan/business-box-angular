@@ -1,17 +1,17 @@
 import { Employee } from "src/app/shared/interfaces/employee";
 import { environment } from "src/environments/environment";
 
-const endpoint = `${environment.serverURL}/employees/`
+const endpoint = `${environment.serverURL}/employees`
 const access_token = localStorage.getItem('access_token')
 
-export const fetchEmployees = async (): Promise<Employee[]> => {
+export const fetchEmployees = async (businessId): Promise<Employee[]> => {
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${endpoint}/${businessId}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${access_token}`
-        }
+        }    
       });
   
       if (!response.ok) {
@@ -27,9 +27,9 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
     }
   };
 
-  export const insertEmployee = async (data): Promise<void> => {
+  export const insertEmployee = async (data: Employee): Promise<void> => {
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${endpoint}/`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
 
   export const deleteEmployee = async (id): Promise<void> => {
     try {
-      const response = await fetch(`${endpoint}${id}`, {
+      const response = await fetch(`${endpoint}/${id}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
@@ -67,9 +67,9 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
     }
   };
 
-  export const updateEmployee = async (data, id): Promise<void> => {
+  export const updateEmployee = async (data: Employee, id): Promise<void> => {
     try {
-      const response = await fetch(`${endpoint}${id}`, {
+      const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
