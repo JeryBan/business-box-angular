@@ -11,3 +11,8 @@
 ul {list-style-type: none;}
 
 .card-title {margin: 2rem 0 0 2rem;}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background-color: rgb(8, 173, 8);
+}

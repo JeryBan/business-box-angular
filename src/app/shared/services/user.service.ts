@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, effect, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { LoggedUser, User } from '../interfaces/user';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { UserSettings } from '../interfaces/user-settings';
 
 const endpoint = `${environment.serverURL}/users`
 
@@ -38,6 +39,16 @@ export class UserService {
     localStorage.removeItem('access_token')
 
     this.router.navigate(['login'])
+  }
+
+  getUserSettings(email: string, access_token: string): Observable<UserSettings> {
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    });
+
+    return this.http.get<UserSettings>(`${endpoint}/settings/${email}`, { headers })
   }
 
 }

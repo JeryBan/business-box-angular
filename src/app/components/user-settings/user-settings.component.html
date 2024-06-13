@@ -1,0 +1,57 @@
+<div class="card-title">
+    <h5>General Settings</h5>
+</div><hr>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card table-container">
+            <div class="card-body table-border-style">
+                <form [formGroup]="settingsForm">
+                    <div class="d-flex">
+
+                        <div class="col-one col-md-6 d-flex flex-column gap-5">
+
+                            <div class="dash-settings d-flex flex-column col-md-6">
+                                <div>
+                                    <h5>Dashboard widgets</h5>
+                                    <hr>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" id="chatCheck" type="checkbox" formControlName="isChatVisible">
+                                    <label for="chatCheck">Chat</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" id="chatCheck" type="checkbox" formControlName="notificationsEnabled">
+                                    <label for="chatCheck">Notifications</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="theme-settings d-flex flex-column col-md-6">
+                                <div>
+                                    <h5>Themes</h5>
+                                    <hr>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" name="theme" type="radio" id="themeLight" value="LIGHT" formControlName="theme">
+                                        <label class="form-check-label" for="themeLight">Light</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" name="theme" type="radio" id="themeDark" value="DARK" formControlName="theme">
+                                        <label class="form-check-label" for="themeDark">Dark</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-two col-md-6 d-flex flex-column">
+
+                        </div>
+                    </div>
+                </form>
+
+                
+            </div>
+        </div>
+    </div>
+</div>

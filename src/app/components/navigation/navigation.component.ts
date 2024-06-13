@@ -8,6 +8,7 @@ import { Business, BusinessToInsert } from 'src/app/shared/interfaces/business';
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { EmployeesComponent } from "../employees/employees.component";
 import { InventoryComponent } from "../inventory/inventory.component";
+import { UserSettingsComponent } from "../user-settings/user-settings.component";
 
 
 @Component({
@@ -32,7 +33,7 @@ import { InventoryComponent } from "../inventory/inventory.component";
     imports: [RouterOutlet,
         RouterLink,
         RouterLinkActive,
-        NgbModule, DashboardComponent, EmployeesComponent, InventoryComponent]
+        NgbModule, DashboardComponent, EmployeesComponent, InventoryComponent, UserSettingsComponent]
 })
 export class NavigationComponent {
 
