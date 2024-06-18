@@ -1,5 +1,5 @@
 
-@if (businessService.activeBusiness()) {
+@if (businessService.activeBusiness() && userSettings?.chatVisible) {
     <div>
         <app-chat></app-chat>
     </div>

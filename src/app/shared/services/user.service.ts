@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, effect, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { LoggedUser, User } from '../interfaces/user';
@@ -41,14 +41,47 @@ export class UserService {
     this.router.navigate(['login'])
   }
 
-  getUserSettings(email: string, access_token: string): Observable<UserSettings> {
-  
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`
-    });
+  fetchUserSettings = async (email: string, access_token: string): Promise<UserSettings> => {
+    try {
+        const response = await fetch(`${endpoint}/settings/${email}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${access_token}`
+            }
+        });
 
-    return this.http.get<UserSettings>(`${endpoint}/settings/${email}`, { headers })
+        if (!response.ok) {
+            throw new Error(`Failed to fetch user settings. Status: ${response.status}`);
+        }
+
+        const settings = await response.json();
+        return settings;
+
+    } catch (error) {
+        console.error('Error fetching user settings: ', error.message);
+        return null;
+    }
   }
 
+  updateSettings = async (data: UserSettings, email, access_token: string): Promise<void> => {
+    try {
+      const response = await fetch(`${endpoint}/settings/${email}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${access_token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if(!response.ok) {
+        throw new Error(`Failed to update settings. Status: ${response.status}`)
+      }
+
+    } catch (error) {
+      console.error('Error updating settings: ', error.message)
+    }
+  }
+  
 }

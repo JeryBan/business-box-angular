@@ -1,11 +1,24 @@
 .table-container {
-    margin-top: 3rem;
+    margin-top: 0.6rem;
     margin-left: auto;
     margin-right: auto;
     width: 95%;
-    height: 75vh;
+    height: 70vh;
     overflow: auto;
     border-radius: 0;
     border-top: 3px solid var(--navy-green);
+}
+
+.btn-apply {
+    width: 95%;
+    margin-top: 2rem;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.fa-check {
+    color: var(--navy-green);
 }
 

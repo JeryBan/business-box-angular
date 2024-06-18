@@ -1,5 +1,8 @@
 export interface UserSettings {
+    id: number,
     theme: string,
-    isChatVisible: boolean,
-    notificationsEnabled: boolean
+    chatVisible: boolean,
+    notificationsEnabled: boolean,
+    
+    
 }

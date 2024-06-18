@@ -2,10 +2,21 @@
     <h5>General Settings</h5>
 </div><hr>
 
+<div class="btn-apply d-flex justify-content-end">
+    <button class="btn btn-success" (click)="applyChanges()">Apply Changes</button>
+    @if (applyCheck) {
+        <i class="fa-solid fa-check p-3"></i>
+    } @else {
+        <i class="fa-solid fa-check p-3 hidden"></i>
+    }
+    
+</div>
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card table-container">
             <div class="card-body table-border-style">
+                
                 <form [formGroup]="settingsForm">
                     <div class="d-flex">
 
@@ -17,12 +28,12 @@
                                     <hr>
                                 </div>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" id="chatCheck" type="checkbox" formControlName="isChatVisible">
+                                    <input class="form-check-input" id="chatCheck" type="checkbox" formControlName="chatVisible">
                                     <label for="chatCheck">Chat</label>
                                 </div>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" id="chatCheck" type="checkbox" formControlName="notificationsEnabled">
-                                    <label for="chatCheck">Notifications</label>
+                                    <input class="form-check-input" id="notificationsCheck" type="checkbox" formControlName="notificationsEnabled">
+                                    <label for="notificationsCheck">Notifications</label>
                                 </div>
                             </div>
                             <br>

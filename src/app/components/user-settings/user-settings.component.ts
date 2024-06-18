@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserSettings } from 'src/app/shared/interfaces/user-settings';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -18,33 +18,59 @@ export class UserSettingsComponent implements OnInit {
   user = this.userService.loggedUser;
   userSettings: UserSettings = {} as UserSettings;
   settingsForm: FormGroup;
-
-  constructor() {
-    this.getUserSettings(this.user().username)
-  }
-
+  applyCheck: boolean;
 
   ngOnInit(): void {
+  
     this.settingsForm = this.formBuilder.group({
-      isChatVisible: [this.userSettings.isChatVisible],
-      notificationsEnabled: [this.userSettings.notificationsEnabled],
-      theme: [this.userSettings.theme]
+      theme: [''],
+      chatVisible: [''],
+      notificationsEnabled: [''],
     })
+
+    this.getSettings(this.user().username)
+    this.applyCheck = false;
+
+    this.settingsForm.valueChanges.subscribe(() => {
+      this.applyCheck = false;
+    });
+    
+  
   }
 
-  getUserSettings(username: string): void {
-    this.userService.getUserSettings(username, localStorage.getItem('access_token')).subscribe({
-      next: (response) => {
-        this.userSettings = response;
-        console.log(this.userSettings)
 
-        const themeControl = this.settingsForm.get('theme') as FormControl;
-        themeControl.patchValue(this.userSettings.theme);
-      },
-      error: (error) => {
-        console.error('Error fetching user settings', error.message);
-      }
-    })
+  async getSettings(username: string): Promise<void> {
+    try {
+      this.userSettings = await this.userService.fetchUserSettings(username, localStorage.getItem('access_token'));
+
+      this.settingsForm.get('theme').setValue(this.userSettings.theme)
+      this.settingsForm.get('chatVisible').setValue(this.userSettings.chatVisible);
+      this.settingsForm.get('notificationsEnabled').setValue(this.userSettings.notificationsEnabled);   
+      
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  
+  async applyChanges(): Promise<void> {
+    this.userSettings = {
+      id: null,
+      theme: this.settingsForm.value.theme,
+      chatVisible: this.settingsForm.value.chatVisible,
+      notificationsEnabled: this.settingsForm.value.notificationsEnabled
+    }
+
+    try {
+      this.userService.updateSettings(
+        this.userSettings,
+        this.user().username,
+        localStorage.getItem('access_token')
+      )
+      this.applyCheck = true;
+
+    } catch (error) {
+      console.error(error.message)
+    }
 
   }
 
