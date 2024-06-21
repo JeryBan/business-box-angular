@@ -1,38 +1,90 @@
-import { Component, inject } from '@angular/core';
-import { catchError, map, tap } from 'rxjs';
+import { Component, effect, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Message } from 'src/app/shared/interfaces/message';
+import { BusinessService } from 'src/app/shared/services/business.service';
 import { ChatService } from 'src/app/shared/services/chat.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent {
 
   chatService: ChatService = inject(ChatService)
+  businessService: BusinessService = inject(BusinessService)
+  userService: UserService = inject(UserService)
 
-  messageContent: string = 'test';
-  messages: string[] = [];
+  messageContent: string;
+  messages: Message[] = [];
+  private messagesSubscription: Subscription;
 
-  ngOnInit() {
-    this.chatService.connect();
+
+  constructor() {
+    effect( () => {
+      if (this.businessService.activeBusiness()) {
+        this.chatService.connect()
+      } else {
+        this.chatService.disconnect()
+      }
+    })
+    
   }
 
-  liveData$ = this.chatService.messages$.pipe(
-    map(rows => rows.data),
-    catchError(error => { throw error }),
-    tap({
-      error: error => console.log('[Live component] Error:', error),
-      complete: () => console.log('[Live component] Connection Closed')
-    }
-    )
-  );
+  ngOnInit(): void {    
+    this.retrieveChatHistory();
+
+    // this.messagesSubscription = this.chatService.messages.subscribe(message => {
+    //   console.log(message);
+    //   this.messages.push(message);
+    // });
+
+  }
+
+  refreshChat() {
+    this.chatService.connect();
+    this.retrieveChatHistory();
+  }
 
   sendMessage() {
-    this.chatService.sendMessage(this.messageContent);
-    // this.messageContent = '';
+    const message: Message = {
+          businessName: this.businessService.activeBusiness().name,
+          body: this.messageContent,
+          sender: this.userService.loggedUser().username,
+          createdAt: null
+        };
+    if (message.body !== "") {
+      this.chatService.sendMessage(message);
+    }
+    this.messageContent = ''
+    this.retrieveChatHistory()
   }
 
+  ngOnDestroy(): void {
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
+    }
+
+  }
+
+  retrieveChatHistory(): void {
+    this.chatService.fetchChatHistory(this.userService.loggedUser().username, localStorage.getItem('access_token')).subscribe({
+      next: (response) => {
+        this.messages = response;
+      },
+      error: (error) => {
+        console.error('Error fetching chat history', error.message);
+      }
+    })
+  }
+
+  formatTimestamp(timestamp: string): string {
+    return (new Date(timestamp)).toLocaleTimeString();
+  }
+
+ 
 }

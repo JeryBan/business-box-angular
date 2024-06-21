@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { User } from 'src/app/shared/interfaces/user';
 import { BusinessService } from 'src/app/shared/services/business.service';
+import { ChatService } from 'src/app/shared/services/chat.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   userService: UserService = inject(UserService);
   businessService: BusinessService = inject(BusinessService);
+  chatService: ChatService = inject(ChatService);
   router: Router = inject(Router);
   formBuilder: FormBuilder = inject(FormBuilder);
 
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
           username: String(decodedTokenSubject)
         });
         
-        this.router.navigate(['home'])
+        this.router.navigate(['home']);
       },
       error: (error) => {
         if (error.status == 409) {
@@ -77,7 +79,7 @@ export class LoginComponent implements OnInit {
           username: decodedTokenSubject
         })
         
-        this.router.navigate(['home'])
+        this.router.navigate(['home']);
            
       },
       error: (error) => {

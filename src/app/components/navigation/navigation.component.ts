@@ -9,6 +9,7 @@ import { DashboardComponent } from "../dashboard/dashboard.component";
 import { EmployeesComponent } from "../employees/employees.component";
 import { InventoryComponent } from "../inventory/inventory.component";
 import { UserSettingsComponent } from "../user-settings/user-settings.component";
+import { ChatService } from 'src/app/shared/services/chat.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class NavigationComponent {
 
   userService: UserService = inject(UserService);
   businessService: BusinessService = inject(BusinessService);
+  chatService: ChatService = inject(ChatService);
   router: Router = inject(Router);
 
   businessList: Business[] | null

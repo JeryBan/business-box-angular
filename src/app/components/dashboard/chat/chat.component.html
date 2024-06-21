@@ -1,63 +1,60 @@
 <!-- chat -->
-<div class="chat">
-    <div class="col-lg-4 col-md-12">
-        <div class="card chat-card">
-            <div class="card-header d-flex justify-content-between">
-                <h5>Chat</h5>
-                <div class="card-header-right">
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
-                    </div>
+<div class="chat ms-5">
+    <div class="col-lg-5 col-md-12">
+        <div class="card chat-card d-flex flex-column align-items-center">
+            <div class="card-header d-flex justify-content-between w-100">
+                <div>
+                    <h5>Chat</h5>
+                </div>
+                <div>
+                    <i role="button" (click)="refreshChat()" class="fa-solid fa-arrows-rotate"></i>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row m-b-20 received-chat">
-                    <div class="col-auto p-r-0">
-                        <img src="../assets/images/user/avatar-2.jpg" alt="user image" class="img-radius wid-40">
+
+            <div class="card-body w-100">
+
+                @if (messages.length == 0) {
+                    <div class="text-center mt-5">
+                        <span class="instr-msg">Add two or more businesses and communicate with each other.</span>
                     </div>
-                    <div class="col">
-                        <div class="msg">
-                            <p class="m-b-0">Nice to meet you!</p>
+                }
+
+                @for (message of messages; track message) {
+                    @if (message.businessName === this.businessService.activeBusiness().name) {
+                        <div class="row m-b-20 send-chat">
+                            <div class="col">
+                                <div class="msg border">
+                                    <p class="m-b-0">{{message.body}}</p>
+                                </div>
+                                <p class="text-muted m-b-0"><i class="fa fa-clock-o m-r-10"></i>{{formatTimestamp(message.createdAt)}}</p>
+                            </div>
+                            <div class="col-auto p-l-0">
+                                {{message.businessName}}
+                            </div>
                         </div>
-                        <p class="text-muted m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
-                    </div>
-                </div>
-                <div class="row m-b-20 send-chat">
-                    <div class="col">
-                        <div class="msg">
-                            <p class="m-b-0">Nice to meet you!</p>
+
+                    }@else {
+                        <div class="row m-b-20 received-chat">
+                            <div class="col-auto p-r-0">
+                                <span>{{message.businessName}}</span>
+                            </div>
+                            <div class="col">
+                                <div class="msg">
+                                    <p class="m-b-0">{{message.body}}</p>
+                                </div>
+                                <p class="text-muted m-b-0"><i class="fa fa-clock-o m-r-10"></i>{{formatTimestamp(message.createdAt)}}</p>
+                            </div>
                         </div>
-                        <p class="text-muted m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
-                    </div>
-                    <div class="col-auto p-l-0">
-                        <img src="../assets/images/user/avatar-3.jpg" alt="user image" class="img-radius wid-40">
-                    </div>
-                </div>
-                <div class="row m-b-20 received-chat">
-                    <div class="col-auto p-r-0">
-                        <img src="../assets/images/user/avatar-2.jpg" alt="user image" class="img-radius wid-40">
-                    </div>
-                    <div class="col">
-                        <div class="msg">
-                            <p class="m-b-0">Nice to meet you!</p>
-                        </div>
-                        <p class="text-muted m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
-                    </div>
-                </div>
-                <div class="input-group m-t-15">
-                    <input type="text" name="task-insert" class="form-control" id="Project" placeholder="Send message">
-                    <div class="input-group-append">
-                        <button class="btn btn-success" (click)="sendMessage()">
-                            <i class="fa-regular fa-comment"></i>
-                        </button>
-                    </div>
+                    }
+                }
+               
+            </div>
+            <div class="d-flex gap-1 m-t-15 response-bar">
+                <input type="text" name="task-insert" class="form-control" id="Project" placeholder="Send message" [(ngModel)]="messageContent" (keyup.enter)="sendMessage()">
+                <div class="input-group-append">
+                    <button class="btn btn-success" (click)="sendMessage()">
+                        <i class="fa-regular fa-comment"></i>
+                    </button>
                 </div>
             </div>
         </div>

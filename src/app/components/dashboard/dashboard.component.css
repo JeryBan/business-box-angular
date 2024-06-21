@@ -1,0 +1,13 @@
+.container {
+    margin-top: 7rem;
+}
+
+.new-business input {
+    border: none;
+}
+
+.new-business input:focus {
+    outline: none;
+    border: 1px solid var(--navy-green);
+    border-radius: 5px;
+}

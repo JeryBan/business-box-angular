@@ -1,37 +1,58 @@
-import { Injectable } from '@angular/core';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { catchError, tap, switchAll } from 'rxjs/operators';
+import { inject, Injectable } from '@angular/core';
 import { environment } from "src/environments/environment";
-import { EMPTY, Subject } from 'rxjs';
+import { Message } from '../interfaces/message';
+import { BusinessService } from './business.service';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
+const endpoint = environment.serverURL;
 const wsURL = environment.wsURL;
-
   
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private socket$: WebSocketSubject<any>;
-  private messagesSubject$ = new Subject();
-  public messages$ = this.messagesSubject$.pipe(switchAll(), catchError(e => { throw e }));
-  
+
+  http: HttpClient = inject(HttpClient)
+  businessService: BusinessService = inject(BusinessService);
+
+  private ws: WebSocket;
+  private messageSubject: Subject<Message> = new Subject<Message>();
+
   public connect(): void {
-  
-    if (!this.socket$ || this.socket$.closed) {
-      this.socket$ = this.getNewWebSocket();
-      const messages = this.socket$.pipe(
-        tap({
-          error: error => console.log(error),
-        }), catchError(_ => EMPTY));
-      this.messagesSubject$.next(messages);
+
+    this.ws = new WebSocket(wsURL, this.businessService.activeBusiness().name);
+    
+    this.ws.onmessage = (event) => {
+      this.messageSubject.next(event.data);
+    }  
+  }
+
+  public sendMessage(message: Message): void {
+    if (this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify(message));
+    } else {
+      console.error('WebSocket is not open.');
     }
   }
-  
-  private getNewWebSocket() {
-    return webSocket(wsURL);
+
+  public get messages(): Observable<Message> {
+    return this.messageSubject.asObservable();
   }
-  sendMessage(msg: any) {
-    this.socket$.next(msg);
+
+  public disconnect() {
+    this.ws.close();
   }
-  close() {
-    this.socket$.complete(); }}
+
+  fetchChatHistory(email, access_token: string): Observable<Message[]> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    });
+
+    return this.http.get<Message[]>(`${endpoint}/chat/history/${email}`, { headers })
+  }
+
+}

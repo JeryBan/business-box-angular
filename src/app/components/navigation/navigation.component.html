@@ -8,27 +8,27 @@
   
 <div class="d-flex">
     <nav class="d-flex flex-column gap-5">
+        
         <div id="businessMenu" class="business initial-height" [@expandCollapse]="menuState">
-            <div class="d-flex align-items-center gap-2 p-3 dropdown-toggle" role="button" (click)="toggleMenu()">
-                <h5>
-                    @if (activeBusiness()) {
+            @if (activeBusiness()) {
+                <div class="d-flex align-items-center gap-2 p-3 dropdown-toggle" role="button" (click)="toggleMenu()">
+                    <h5>
                         {{activeBusiness().name}}
-                    }
-                </h5>
-            </div>
-            <div>
-                <ul>
-                    @if (businessList) {
-                        @for (business of businessList; track business) {
-                            <li role="button" (click)="selectBusiness(business)">
-                                {{business.name}}
-                            </li>
-                        }  
-                    }             
-                    <li><input #businessInput type="text" class="business-input" placeholder="New Business"  (keyup.enter)="addBusiness(businessInput.value); businessInput.value = '' "></li>
-                </ul>
-            </div>
-            
+                    </h5>
+                </div>
+                <div>
+                    <ul>
+                        @if (businessList) {
+                            @for (business of businessList; track business) {
+                                <li role="button" (click)="selectBusiness(business)">
+                                    {{business.name}}
+                                </li>
+                            }  
+                        }             
+                        <li><input #businessInput type="text" class="business-input" placeholder="New Business"  (keyup.enter)="addBusiness(businessInput.value); businessInput.value = '' "></li>
+                    </ul>
+                </div>
+            }
         </div>
     
         <div class="navigation flex-grow-1">

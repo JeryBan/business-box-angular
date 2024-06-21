@@ -5,6 +5,8 @@ import { LoggedUser, User } from '../interfaces/user';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserSettings } from '../interfaces/user-settings';
+import { ChatService } from './chat.service';
+import { BusinessService } from './business.service';
 
 const endpoint = `${environment.serverURL}/users`
 
@@ -13,6 +15,8 @@ const endpoint = `${environment.serverURL}/users`
 })
 export class UserService {
 
+  businessService: BusinessService = inject(BusinessService)
+  chatService: ChatService = inject(ChatService)
   http: HttpClient = inject(HttpClient)
   router: Router = inject(Router)
 
@@ -36,7 +40,9 @@ export class UserService {
 
   logoutUser(): void {
     this.loggedUser.set(null);
-    localStorage.removeItem('access_token')
+    this.businessService.activeBusiness.set(null);
+    localStorage.removeItem('access_token');
+    this.chatService.disconnect();
 
     this.router.navigate(['login'])
   }

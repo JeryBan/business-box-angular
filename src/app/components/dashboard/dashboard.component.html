@@ -1,3 +1,19 @@
+@if (!businessService.activeBusiness()) {
+    <div class="container col-lg-4 col-md-12">
+        <div class="d-flex flex-column align-items-center">
+            <div class="card-title text-align-center">
+                <h4>Start by adding your first Business</h4>
+                <hr>
+            </div>
+            <div class="new-business">
+                <input #businessInput type="text" placeholder=" business name" (keyup.enter)="addBusiness(businessInput.value)">
+            </div>
+    
+        </div>
+    </div>
+    
+}
+
 
 @if (businessService.activeBusiness() && userSettings?.chatVisible) {
     <div>

@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    serverURL: 'http://',
-    wsURL: 'ws://'
+    serverURL: 'https://',
+    wsURL: 'wss://'
 };
