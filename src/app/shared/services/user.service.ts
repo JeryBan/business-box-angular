@@ -39,10 +39,10 @@ export class UserService {
   }
 
   logoutUser(): void {
-    this.loggedUser.set(null);
-    this.businessService.activeBusiness.set(null);
-    localStorage.removeItem('access_token');
     this.chatService.disconnect();
+    this.businessService.activeBusiness.set(null);
+    this.loggedUser.set(null);
+    localStorage.removeItem('access_token');
 
     this.router.navigate(['login'])
   }

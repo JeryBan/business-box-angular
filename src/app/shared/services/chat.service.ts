@@ -19,11 +19,13 @@ export class ChatService {
 
   private ws: WebSocket;
   private messageSubject: Subject<Message> = new Subject<Message>();
+  connected: Boolean = false;
 
   public connect(): void {
 
     this.ws = new WebSocket(wsURL, this.businessService.activeBusiness().name);
-    
+    this.connected = true;
+
     this.ws.onmessage = (event) => {
       this.messageSubject.next(event.data);
     }  
@@ -42,7 +44,10 @@ export class ChatService {
   }
 
   public disconnect() {
-    this.ws.close();
+    if (this.connected) {
+      this.ws.close();
+      this.connected = false;
+    }
   }
 
   fetchChatHistory(email, access_token: string): Observable<Message[]> {

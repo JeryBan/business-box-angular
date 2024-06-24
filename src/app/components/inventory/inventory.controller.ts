@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 const endpoint = `${environment.serverURL}/products`
 const access_token = localStorage.getItem('access_token')
 
-export const fetchProducts = async (businessId): Promise<Product[]> => {
+export const fetchProducts = async (businessId: number): Promise<Product[]> => {
     try {
         const response = await fetch(`${endpoint}/${businessId}`, {
             method: 'GET',
@@ -49,7 +49,7 @@ export const insertProduct = async (data: Product): Promise<void> => {
 
 
 
-export const deleteProduct = async (id): Promise<void> => {
+export const deleteProduct = async (id: number): Promise<void> => {
     try {
         const response = await fetch(`${endpoint}/${id}`, {
             method: 'DELETE',
@@ -68,7 +68,7 @@ export const deleteProduct = async (id): Promise<void> => {
     }
 }
 
-export const updateProduct = async (data: Product, id): Promise<void> => {
+export const updateProduct = async (data: Product, id: number): Promise<void> => {
     try {
         const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',

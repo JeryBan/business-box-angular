@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 const endpoint = `${environment.serverURL}/employees`
 const access_token = localStorage.getItem('access_token')
 
-export const fetchEmployees = async (businessId): Promise<Employee[]> => {
+export const fetchEmployees = async (businessId: number): Promise<Employee[]> => {
     try {
       const response = await fetch(`${endpoint}/${businessId}`, {
         method: 'GET',
@@ -48,7 +48,7 @@ export const fetchEmployees = async (businessId): Promise<Employee[]> => {
     }
   };
 
-  export const deleteEmployee = async (id): Promise<void> => {
+  export const deleteEmployee = async (id: number): Promise<void> => {
     try {
       const response = await fetch(`${endpoint}/${id}`, {
         method: 'DELETE',
@@ -67,7 +67,7 @@ export const fetchEmployees = async (businessId): Promise<Employee[]> => {
     }
   };
 
-  export const updateEmployee = async (data: Employee, id): Promise<void> => {
+  export const updateEmployee = async (data: Employee, id: number): Promise<void> => {
     try {
       const response = await fetch(`${endpoint}/${id}`, {
         method: 'PUT',
