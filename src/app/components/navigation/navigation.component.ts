@@ -63,7 +63,7 @@ export class NavigationComponent {
     this.activeBusiness.set(business)
     this.menuState = 'collapsed';
 
-    this.currentView = 'dashboard';
+    this.currentView = "dashboard"
   }
 
   fetchBusinessList(username: string): void {

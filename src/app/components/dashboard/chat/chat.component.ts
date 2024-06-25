@@ -28,8 +28,6 @@ export class ChatComponent {
     effect( () => {
       if (this.businessService.activeBusiness()) {
         this.chatService.connect()
-      } else {
-        this.chatService.disconnect()
       }
     })
     
@@ -69,6 +67,7 @@ export class ChatComponent {
       this.messagesSubscription.unsubscribe();
     }
 
+    this.chatService.disconnect()
   }
 
   retrieveChatHistory(): void {
