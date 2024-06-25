@@ -19,7 +19,7 @@
 
 						<form [formGroup]="loginForm">
 							<div class="form-group mb-4">
-								<input type="email" class="form-control" id="Email" formControlName="email" placeholder="Email address">
+								<input type="email" class="form-control" id="Email" formControlName="email" placeholder="Email address" (keyup.enter)="signIn()">
 								@if (loginForm.get('email').invalid && loginForm.get('email').touched) {
 									<div class="d-flex ms-2">
 										<small class="text-danger">invalid email</small>
@@ -27,7 +27,7 @@
 								}
 							</div>
 							<div class="form-group mb-4">
-								<input type="password" class="form-control" id="Password" formControlName="password" placeholder="Password">
+								<input type="password" class="form-control" id="Password" formControlName="password" placeholder="Password" (keyup.enter)="signIn()">
 								@if (loginForm.get('password').invalid && loginForm.get('password').touched) {
 									<div class="d-flex ms-2">
 										<small class="text-danger">password is required</small>

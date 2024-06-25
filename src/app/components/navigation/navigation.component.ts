@@ -62,6 +62,8 @@ export class NavigationComponent {
   selectBusiness(business: Business): void {
     this.activeBusiness.set(business)
     this.menuState = 'collapsed';
+
+    this.currentView = 'dashboard';
   }
 
   fetchBusinessList(username: string): void {
