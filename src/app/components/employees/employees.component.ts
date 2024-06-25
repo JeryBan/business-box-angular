@@ -30,6 +30,7 @@ export class EmployeesComponent implements OnInit {
   async getEmployees(): Promise<void> {
     try {
       this.employees = await fetchEmployees(this.activeBusiness().id);
+      
     } catch (error) {
       console.error(error.message);
       this.employees = [];

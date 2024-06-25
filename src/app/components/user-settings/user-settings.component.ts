@@ -21,7 +21,6 @@ export class UserSettingsComponent implements OnInit {
   applyCheck: boolean;
 
   ngOnInit(): void {
-  
     this.settingsForm = this.formBuilder.group({
       theme: [''],
       chatVisible: [''],
